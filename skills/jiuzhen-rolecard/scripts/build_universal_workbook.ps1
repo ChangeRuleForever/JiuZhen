@@ -352,12 +352,12 @@ try {
         )
     }
     Write-TableRows $wsSettings 1 21 $familyRows
-    $wsSettings.Columns("A").ColumnWidth = 10
-    $wsSettings.Columns("B").ColumnWidth = 14
-    $wsSettings.Columns("C").ColumnWidth = 26
-    $wsSettings.Columns("D").ColumnWidth = 52
-    $wsSettings.Columns("E").ColumnWidth = 22
-    $wsSettings.Columns("F").ColumnWidth = 24
+    $wsSettings.Columns("A").ColumnWidth = 11
+    $wsSettings.Columns("B").ColumnWidth = 18
+    $wsSettings.Columns("C").ColumnWidth = 32
+    $wsSettings.Columns("D").ColumnWidth = 60
+    $wsSettings.Columns("E").ColumnWidth = 26
+    $wsSettings.Columns("F").ColumnWidth = 30
 
     Set-MergedValue $wsTrait "A1:D1" "通用特性体系"
     Write-TableRows $wsTrait 1 2 (, @("家族", "分组", "特性名称", "特性介绍"))
@@ -442,7 +442,8 @@ try {
     foreach ($rowValues in $equipmentRows) {
         switch ([string]$rowValues[1]) {
             "头盔" {
-                Set-CellValue $wsEquipment $equipListRow 22 [string]$rowValues[2]
+                $itemName = [string]$rowValues[2]
+                Set-CellValue $wsEquipment $equipListRow 22 $itemName
                 $equipListRow++
             }
         }
@@ -450,28 +451,32 @@ try {
     $chestRow = 6
     foreach ($rowValues in $equipmentRows) {
         if ([string]$rowValues[1] -eq "胸甲（轻）" -or [string]$rowValues[1] -eq "胸甲（重）") {
-            Set-CellValue $wsEquipment $chestRow 23 [string]$rowValues[2]
+            $itemName = [string]$rowValues[2]
+            Set-CellValue $wsEquipment $chestRow 23 $itemName
             $chestRow++
         }
     }
     $legRow = 6
     foreach ($rowValues in $equipmentRows) {
         if ([string]$rowValues[1] -eq "腿甲") {
-            Set-CellValue $wsEquipment $legRow 24 [string]$rowValues[2]
+            $itemName = [string]$rowValues[2]
+            Set-CellValue $wsEquipment $legRow 24 $itemName
             $legRow++
         }
     }
     $accRow = 6
     foreach ($rowValues in $equipmentRows) {
         if ([string]$rowValues[0] -eq "饰品") {
-            Set-CellValue $wsEquipment $accRow 25 [string]$rowValues[2]
+            $itemName = [string]$rowValues[2]
+            Set-CellValue $wsEquipment $accRow 25 $itemName
             $accRow++
         }
     }
     $weaponRow = 6
     foreach ($rowValues in $equipmentRows) {
         if ([string]$rowValues[0] -eq "武器") {
-            Set-CellValue $wsEquipment $weaponRow 26 [string]$rowValues[2]
+            $itemName = [string]$rowValues[2]
+            Set-CellValue $wsEquipment $weaponRow 26 $itemName
             $weaponRow++
         }
     }
@@ -578,7 +583,7 @@ try {
         Set-MergedValue $wsFollower ("H{0}:M{0}" -f ($startRow + 6)) "武器栏"
         Set-MergedValue $wsFollower ("N{0}:R{0}" -f ($startRow + 6)) "物品栏"
 
-        Write-TableRows $wsFollower 1 ($startRow + 7) (, @("技能名称", "技能介绍", "", "", "", "", "", "武器名称", "成功几率", "武器介绍", "", "", "", "物品名称", "物品介绍", "", "", ""))
+        Write-TableRows $wsFollower 1 ($startRow + 7) (, @("技能名称", "技能介绍", "", "", "", "", "", "武器名称", "武器伤害", "武器介绍", "", "", "", "物品名称", "物品介绍", "", "", ""))
         Set-MergedValue $wsFollower ("B{0}:G{0}" -f ($startRow + 7)) "技能介绍"
         Set-MergedValue $wsFollower ("J{0}:M{0}" -f ($startRow + 7)) "武器介绍"
         Set-MergedValue $wsFollower ("O{0}:R{0}" -f ($startRow + 7)) "物品介绍"
@@ -621,6 +626,19 @@ try {
         $wsBook.Range("L$row").Value2 = "空"
     }
     $wsBook.Columns("W:AD").Hidden = $true
+
+    $wsPersonal.Rows("23:28").Insert() | Out-Null
+
+    Set-MergedValue $wsPersonal "A23:N23" "武器栏"
+    Set-MergedValue $wsPersonal "A24:C24" "武器名称"
+    Set-MergedValue $wsPersonal "D24:E24" "武器伤害"
+    Set-MergedValue $wsPersonal "F24:N24" "武器介绍"
+
+    foreach ($row in 25..28) {
+        Set-MergedValue $wsPersonal ("A{0}:C{0}" -f $row) "空"
+        Set-MergedValue $wsPersonal ("D{0}:E{0}" -f $row) ""
+        Set-MergedValue $wsPersonal ("F{0}:N{0}" -f $row) ""
+    }
 
     foreach ($cellAddr in @("F13", "F15", "F17", "F19", "F21")) {
         $wsPersonal.Range($cellAddr).Value2 = "空"

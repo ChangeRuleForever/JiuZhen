@@ -283,12 +283,18 @@ Private Sub RefreshEquipmentReferenceLists(ByVal equipmentWs As Worksheet, ByVal
         ApplyValidationFormula personalWs.Range("F17"), BuildValidationFormula(equipmentWs, "X", 5, 100)
         ApplyValidationFormula personalWs.Range("F19"), BuildValidationFormula(equipmentWs, "Y", 5, 150)
         ApplyValidationFormula personalWs.Range("F21"), BuildValidationFormula(equipmentWs, "Y", 5, 150)
+        ApplyValidationFormula personalWs.Range("A25:A28"), BuildValidationFormula(equipmentWs, "Z", 5, 200)
 
         personalWs.Range("H13").Formula = "=IF(OR(F13="""",F13=""空""),"""",IFERROR(VLOOKUP(F13,'装备列表'!$M$5:$T$400,2,FALSE),""""))"
         personalWs.Range("H15").Formula = "=IF(OR(F15="""",F15=""空""),"""",IFERROR(VLOOKUP(F15,'装备列表'!$M$5:$T$400,2,FALSE),""""))"
         personalWs.Range("H17").Formula = "=IF(OR(F17="""",F17=""空""),"""",IFERROR(VLOOKUP(F17,'装备列表'!$M$5:$T$400,2,FALSE),""""))"
         personalWs.Range("H19").Formula = "=IF(OR(F19="""",F19=""空""),"""",IFERROR(VLOOKUP(F19,'装备列表'!$M$5:$T$400,2,FALSE),""""))"
         personalWs.Range("H21").Formula = "=IF(OR(F21="""",F21=""空""),"""",IFERROR(VLOOKUP(F21,'装备列表'!$M$5:$T$400,2,FALSE),""""))"
+
+        personalWs.Range("D25").Formula = "=IF(OR(A25="""",A25=""空""),"""",IFERROR(VLOOKUP(A25,'装备列表'!$M$5:$T$400,8,FALSE),""""))"
+        personalWs.Range("D25:D28").FillDown
+        personalWs.Range("F25").Formula = "=IF(OR(A25="""",A25=""空""),"""",IFERROR(VLOOKUP(A25,'装备列表'!$M$5:$T$400,2,FALSE),""""))"
+        personalWs.Range("F25:F28").FillDown
     End If
 
     If followerWs Is Nothing Then Exit Sub
@@ -307,6 +313,7 @@ Private Sub RefreshEquipmentReferenceLists(ByVal equipmentWs As Worksheet, ByVal
         followerWs.Range("K" & (CLng(blockStart) + 4)).Formula = "=IF(OR(H" & (CLng(blockStart) + 4) & "="""",H" & (CLng(blockStart) + 4) & "=""空""),"""",IFERROR(VLOOKUP(H" & (CLng(blockStart) + 4) & ",'装备列表'!$M$5:$T$400,2,FALSE),""""))"
 
         For dataRow = CLng(blockStart) + 8 To CLng(blockStart) + 11
+            followerWs.Range("I" & dataRow).Formula = "=IF(OR(H" & dataRow & "="""",H" & dataRow & "=""空""),"""",IFERROR(VLOOKUP(H" & dataRow & ",'装备列表'!$M$5:$T$400,8,FALSE),""""))"
             followerWs.Range("J" & dataRow).Formula = "=IF(OR(H" & dataRow & "="""",H" & dataRow & "=""空""),"""",IFERROR(VLOOKUP(H" & dataRow & ",'装备列表'!$M$5:$T$400,2,FALSE),""""))"
         Next dataRow
     Next blockStart
