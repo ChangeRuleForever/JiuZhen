@@ -1,0 +1,4 @@
+interface:
+  display_name: "玖镇角色卡"
+  short_description: "维护玖镇角色卡工作簿、主题宏、VBA与各家特性配置工作流指南"
+  default_prompt: "Use $jiuzhen-rolecard to maintain workbooks/玖镇新版角色卡.xlsm, including universal sheets, family-specific rules, themes, macros, and controls."

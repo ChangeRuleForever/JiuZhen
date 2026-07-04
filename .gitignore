@@ -1,0 +1,15 @@
+# Office lock files
+~$*.docx
+~$*.xlsx
+~$*.xlsm
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Windows noise
+Thumbs.db
+
+# Generated workbook backups
+workbooks/*_backup_*.xlsm
+workbooks/templates/*_backup_*.xlsm
