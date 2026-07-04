@@ -76,7 +76,11 @@ CleanExit:
     Exit Sub
 
 CleanFail:
-    MsgBox "Apply workbook theme failed: " & Err.Description, vbExclamation
+    If Application.DisplayAlerts Then
+        MsgBox "Apply workbook theme failed: " & Err.Description, vbExclamation
+    Else
+        Err.Raise vbObjectError + 701, "ApplyWorkbookTheme", "Apply workbook theme failed: " & Err.Description
+    End If
     Resume CleanExit
 End Sub
 
@@ -135,7 +139,11 @@ CleanExit:
     Exit Sub
 
 CleanFail:
-    MsgBox "Refresh Mojia inventory failed: " & Err.Description, vbExclamation
+    If Application.DisplayAlerts Then
+        MsgBox "Refresh Mojia inventory failed: " & Err.Description, vbExclamation
+    Else
+        Err.Raise vbObjectError + 702, "RefreshMojiaInventory", "Refresh Mojia inventory failed: " & Err.Description
+    End If
     Resume CleanExit
 End Sub
 
@@ -816,65 +824,73 @@ End Function
 
 Private Sub ApplyThemePersonalInfo(ByVal ws As Worksheet, ByVal themeKey As String)
     ws.Cells.Font.Name = "KaiTi"
-    ws.Cells.Font.Size = 11.8
+    ws.Cells.Font.Size = 12.8
     ws.Range("A1:V61").Interior.Color = Palette(themeKey, "base")
 
-    PaintBlock ws.Range("A1:D1"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 13.5, True, True
-    PaintBlock ws.Range("F1:K1"), Palette(themeKey, "titleMid"), Palette(themeKey, "textLight"), 13.5, True, True
-    PaintBlock ws.Range("M1:O1"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 13.5, True, True
-    PaintBlock ws.Range("Q1:V1"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 13.5, True, True
-    PaintBlock ws.Range("A10:P10"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 12, True, True
-    PaintBlock ws.Range("Q10:V10"), Palette(themeKey, "titleMid"), Palette(themeKey, "textLight"), 12, True, True
-    PaintBlock ws.Range("A23:N23"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 12.5, True, True
-    PaintBlock ws.Range("A29:N29"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 12.5, True, True
-    PaintBlock ws.Range("P29:V29"), Palette(themeKey, "titleMid"), Palette(themeKey, "textLight"), 12.5, True, True
-    PaintBlock ws.Range("P36:V36"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 12, True, True
-    PaintBlock ws.Range("A47:V47"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 12.5, True, True
+    PaintBlock ws.Range("A1:D1"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 14.2, True, True
+    PaintBlock ws.Range("F1:K1"), Palette(themeKey, "titleMid"), Palette(themeKey, "textLight"), 14.2, True, True
+    PaintBlock ws.Range("M1:O1"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 14.2, True, True
+    PaintBlock ws.Range("Q1:V1"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 14.2, True, True
+    PaintBlock ws.Range("A10:P10"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 13, True, True
+    PaintBlock ws.Range("Q10:V10"), Palette(themeKey, "titleMid"), Palette(themeKey, "textLight"), 13, True, True
+    PaintBlock ws.Range("A23:N23"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 13.2, True, True
+    PaintBlock ws.Range("P23:V23"), Palette(themeKey, "titleMid"), Palette(themeKey, "textLight"), 13.2, True, True
+    PaintBlock ws.Range("A29:N29"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 13.2, True, True
+    PaintBlock ws.Range("P35:V35"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 13, True, True
+    PaintBlock ws.Range("A47:V47"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 13.2, True, True
 
-    PaintBlock ws.Range("A2:D9"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-    PaintBlock ws.Range("F2:K9"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-    PaintBlock ws.Range("M2:O9"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-    PaintBlock ws.Range("Q2:V9"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-    PaintBlock ws.Range("Q11:V21"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
+    PaintBlock ws.Range("A2:D9"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.3, False, False
+    PaintBlock ws.Range("F2:K9"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.3, False, False
+    PaintBlock ws.Range("M2:O9"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.3, False, False
+    PaintBlock ws.Range("Q2:V9"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.3, False, False
+    PaintBlock ws.Range("Q11:V21"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.3, False, False
 
-    PaintBlock ws.Range("A11:D11"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.5, True, True
-    PaintBlock ws.Range("F11:J11"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.5, True, True
-    PaintBlock ws.Range("L11:O11"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.5, True, True
-    PaintBlock ws.Range("A12:D20"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-    PaintBlock ws.Range("F12:J20"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-    PaintBlock ws.Range("L12:O20"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-    PaintBlock ws.Range("A22:V22"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 10.5, False, False
-    PaintBlock ws.Range("A48:V48"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 10.5, False, False
+    PaintBlock ws.Range("A11:D11"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.3, True, True
+    PaintBlock ws.Range("F11:J11"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.3, True, True
+    PaintBlock ws.Range("L11:O11"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.3, True, True
+    PaintBlock ws.Range("A12:D20"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.3, False, False
+    PaintBlock ws.Range("F12:J20"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.3, False, False
+    PaintBlock ws.Range("L12:O20"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.3, False, False
+    PaintBlock ws.Range("A22:V22"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.6, False, False
+    PaintBlock ws.Range("A48:V48"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.6, False, False
 
-    PaintBlock ws.Range("A24:C24"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.8, True, True
-    PaintBlock ws.Range("D24:E24"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.8, True, True
-    PaintBlock ws.Range("F24:N24"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.8, True, True
-    PaintBlock ws.Range("A25:C28"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.3, False, False
-    PaintBlock ws.Range("D25:E28"), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 11.3, True, True
-    PaintBlock ws.Range("F25:N28"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.3, False, False
+    PaintBlock ws.Range("A24:C24"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.6, True, True
+    PaintBlock ws.Range("D24:E24"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.6, True, True
+    PaintBlock ws.Range("F24:N24"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.6, True, True
+    PaintBlock ws.Range("A25:C28"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.1, False, False
+    PaintBlock ws.Range("D25:E28"), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 12.1, True, True
+    PaintBlock ws.Range("F25:N28"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12.1, False, False
 
-    PaintBlock ws.Range("A30:G30"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.5, True, True
-    PaintBlock ws.Range("H30:N30"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.5, True, True
-    PaintBlock ws.Range("A31:B45"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.2, False, False
-    PaintBlock ws.Range("C31:F45"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.2, False, False
-    PaintBlock ws.Range("G31:G45"), Palette(themeKey, "total"), Palette(themeKey, "textDark"), 11.2, True, True
-    PaintBlock ws.Range("H31:I45"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.2, False, False
-    PaintBlock ws.Range("J31:M45"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.2, False, False
-    PaintBlock ws.Range("N31:N45"), Palette(themeKey, "total"), Palette(themeKey, "textDark"), 11.2, True, True
+    PaintBlock ws.Range("A30:G30"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.2, True, True
+    PaintBlock ws.Range("H30:N30"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.2, True, True
+    PaintBlock ws.Range("A31:B45"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 12, False, False
+    PaintBlock ws.Range("C31:F45"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12, False, False
+    PaintBlock ws.Range("G31:G45"), Palette(themeKey, "total"), Palette(themeKey, "textDark"), 12, True, True
+    PaintBlock ws.Range("H31:I45"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 12, False, False
+    PaintBlock ws.Range("J31:M45"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12, False, False
+    PaintBlock ws.Range("N31:N45"), Palette(themeKey, "total"), Palette(themeKey, "textDark"), 12, True, True
 
-    PaintBlock ws.Range("P30:R30"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.5, True, True
-    PaintBlock ws.Range("S30:V30"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 11.5, True, True
-    PaintBlock ws.Range("P31:R35"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.2, False, False
-    PaintBlock ws.Range("S31:V35"), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 11.2, False, False
-    PaintBlock ws.Range("P37:V45"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.2, False, False
+    PaintBlock ws.Range("P24:R33"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
+    PaintBlock ws.Range("S24:V33"), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 12, False, False
+    PaintBlock ws.Range("P34:V34"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.6, False, False
+    PaintBlock ws.Range("P36:V45"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12, False, False
 
-    PaintBlock ws.Range("B48:K61"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.2, False, False
-    PaintBlock ws.Range("M48:V61"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.2, False, False
+    PaintBlock ws.Range("B48:K61"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12, False, False
+    PaintBlock ws.Range("M48:V61"), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 12, False, False
 
     ws.Range("E1:E61").Interior.Color = Palette(themeKey, "base")
-    ws.Range("P1:P28").Interior.Color = Palette(themeKey, "base")
+    ws.Range("P1:P22").Interior.Color = Palette(themeKey, "base")
     ws.Range("K11:K21").Interior.Color = Palette(themeKey, "base")
     ws.Range("L48:L61").Interior.Color = Palette(themeKey, "base")
+
+    ws.Rows("1:61").RowHeight = 29
+    ws.Rows("1:1").RowHeight = 32
+    ws.Rows("10:10").RowHeight = 32
+    ws.Rows("22:22").RowHeight = 20
+    ws.Rows("23:23").RowHeight = 32
+    ws.Rows("29:29").RowHeight = 32
+    ws.Rows("35:35").RowHeight = 32
+    ws.Rows("47:47").RowHeight = 32
 
     ApplyGrid ws.Range("A2:D9")
     ApplyGrid ws.Range("F2:K9")
@@ -883,10 +899,10 @@ Private Sub ApplyThemePersonalInfo(ByVal ws As Worksheet, ByVal themeKey As Stri
     ApplyGrid ws.Range("A11:D20")
     ApplyGrid ws.Range("F11:J20")
     ApplyGrid ws.Range("L11:O20")
-    ApplyGrid ws.Range("A24:N28")
+    ApplyGrid ws.Range("A23:N28")
     ApplyGrid ws.Range("A30:N45")
-    ApplyGrid ws.Range("P30:V35")
-    ApplyGrid ws.Range("P36:V45")
+    ApplyGrid ws.Range("P23:V33")
+    ApplyGrid ws.Range("P35:V45")
     ApplyGrid ws.Range("B48:K61")
     ApplyGrid ws.Range("M48:V61")
     ws.Tab.Color = Palette(themeKey, "tab1")
@@ -896,46 +912,59 @@ Private Sub ApplyThemeBookAndTraits(ByVal ws As Worksheet, ByVal themeKey As Str
     Dim rowIndex As Long
 
     ws.Cells.Font.Name = "KaiTi"
-    ws.Cells.Font.Size = 11.5
-    ws.Range("A1:U35").Interior.Color = Palette(themeKey, "base")
+    ws.Cells.Font.Size = 12.4
+    ws.Range("A1:U36").Interior.Color = Palette(themeKey, "base")
 
-    PaintBlock ws.Range("A1:B17"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
-    PaintBlock ws.Range("C1:J1"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 12.5, True, True
-    PaintBlock ws.Range("C2:J17"), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 11.6, False, False
-    PaintBlock ws.Range("K1:K35"), Palette(themeKey, "base"), Palette(themeKey, "textDark"), 11, False, False
-    PaintBlock ws.Range("L1:L17"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
-    PaintBlock ws.Range("M1:U1"), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 12.5, True, True
-    PaintBlock ws.Range("M2:U17"), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 11.6, False, False
-    PaintBlock ws.Range("A18:U18"), Palette(themeKey, "titleMid"), Palette(themeKey, "textLight"), 12.5, True, True
+    PaintBlock ws.Range("A1:J1"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 13.4, True, True
+    PaintBlock ws.Range("A2:B2"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.4, True, True
+    PaintBlock ws.Range("C2:J2"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.4, True, True
+    PaintBlock ws.Range("K1:K36"), Palette(themeKey, "base"), Palette(themeKey, "textDark"), 11.4, False, False
+    PaintBlock ws.Range("L1:U1"), Palette(themeKey, "titleAlt"), Palette(themeKey, "textLight"), 13.4, True, True
+    PaintBlock ws.Range("L2:L2"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.4, True, True
+    PaintBlock ws.Range("M2:U2"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.4, True, True
 
-    PaintBlock ws.Range("A19:A35"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
-    PaintBlock ws.Range("B19:H19"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 12, True, True
-    PaintBlock ws.Range("I19:J19"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
-    PaintBlock ws.Range("L19:L35"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
-    PaintBlock ws.Range("M19:S19"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 12, True, True
-    PaintBlock ws.Range("T19:U19"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
-
-    For rowIndex = 20 To 35
+    For rowIndex = 3 To 18
+        PaintBlock ws.Range("A" & rowIndex & ":B" & rowIndex), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
+        PaintBlock ws.Range("L" & rowIndex), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12, True, True
         If rowIndex Mod 2 = 0 Then
-            PaintBlock ws.Range("B" & rowIndex & ":H" & rowIndex), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-            PaintBlock ws.Range("I" & rowIndex & ":J" & rowIndex), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 11.5, True, True
-            PaintBlock ws.Range("M" & rowIndex & ":S" & rowIndex), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.5, False, False
-            PaintBlock ws.Range("T" & rowIndex & ":U" & rowIndex), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 11.5, True, True
+            PaintBlock ws.Range("C" & rowIndex & ":J" & rowIndex), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.9, False, False
+            PaintBlock ws.Range("M" & rowIndex & ":U" & rowIndex), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.9, False, False
         Else
-            PaintBlock ws.Range("B" & rowIndex & ":H" & rowIndex), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.5, False, False
-            PaintBlock ws.Range("I" & rowIndex & ":J" & rowIndex), Palette(themeKey, "total"), Palette(themeKey, "textDark"), 11.5, True, True
-            PaintBlock ws.Range("M" & rowIndex & ":S" & rowIndex), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.5, False, False
-            PaintBlock ws.Range("T" & rowIndex & ":U" & rowIndex), Palette(themeKey, "total"), Palette(themeKey, "textDark"), 11.5, True, True
+            PaintBlock ws.Range("C" & rowIndex & ":J" & rowIndex), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.9, False, False
+            PaintBlock ws.Range("M" & rowIndex & ":U" & rowIndex), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.9, False, False
         End If
     Next rowIndex
 
-    ws.Rows("1:35").RowHeight = 26
-    ws.Rows("18:18").RowHeight = 30
-    ApplyGrid ws.Range("A1:J17")
-    ApplyGrid ws.Range("L1:U17")
-    ApplyGrid ws.Range("A18:U18")
-    ApplyGrid ws.Range("A19:J35")
-    ApplyGrid ws.Range("L19:U35")
+    PaintBlock ws.Range("A19:U19"), Palette(themeKey, "titleMid"), Palette(themeKey, "textLight"), 13, True, True
+    PaintBlock ws.Range("A20:A20"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.4, True, True
+    PaintBlock ws.Range("B20:H20"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 12.4, True, True
+    PaintBlock ws.Range("I20:J20"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.4, True, True
+    PaintBlock ws.Range("L20:L20"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.4, True, True
+    PaintBlock ws.Range("M20:S20"), Palette(themeKey, "titleDark"), Palette(themeKey, "textLight"), 12.4, True, True
+    PaintBlock ws.Range("T20:U20"), Palette(themeKey, "header"), Palette(themeKey, "textDark"), 12.4, True, True
+
+    For rowIndex = 21 To 36
+        If rowIndex Mod 2 = 0 Then
+            PaintBlock ws.Range("B" & rowIndex & ":H" & rowIndex), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.9, False, False
+            PaintBlock ws.Range("I" & rowIndex & ":J" & rowIndex), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 11.9, True, True
+            PaintBlock ws.Range("M" & rowIndex & ":S" & rowIndex), Palette(themeKey, "table"), Palette(themeKey, "textDark"), 11.9, False, False
+            PaintBlock ws.Range("T" & rowIndex & ":U" & rowIndex), Palette(themeKey, "note"), Palette(themeKey, "textDark"), 11.9, True, True
+        Else
+            PaintBlock ws.Range("B" & rowIndex & ":H" & rowIndex), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.9, False, False
+            PaintBlock ws.Range("I" & rowIndex & ":J" & rowIndex), Palette(themeKey, "total"), Palette(themeKey, "textDark"), 11.9, True, True
+            PaintBlock ws.Range("M" & rowIndex & ":S" & rowIndex), Palette(themeKey, "panel"), Palette(themeKey, "textDark"), 11.9, False, False
+            PaintBlock ws.Range("T" & rowIndex & ":U" & rowIndex), Palette(themeKey, "total"), Palette(themeKey, "textDark"), 11.9, True, True
+        End If
+    Next rowIndex
+
+    ws.Rows("1:36").RowHeight = 29
+    ws.Rows("1:2").RowHeight = 31
+    ws.Rows("19:20").RowHeight = 31
+    ApplyGrid ws.Range("A1:J18")
+    ApplyGrid ws.Range("L1:U18")
+    ApplyGrid ws.Range("A19:U19")
+    ApplyGrid ws.Range("A20:J36")
+    ApplyGrid ws.Range("L20:U36")
     ws.Tab.Color = Palette(themeKey, "tab2")
 End Sub
 

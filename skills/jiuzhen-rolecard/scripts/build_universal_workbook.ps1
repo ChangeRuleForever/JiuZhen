@@ -352,12 +352,12 @@ try {
         )
     }
     Write-TableRows $wsSettings 1 21 $familyRows
-    $wsSettings.Columns("A").ColumnWidth = 11
-    $wsSettings.Columns("B").ColumnWidth = 18
-    $wsSettings.Columns("C").ColumnWidth = 32
-    $wsSettings.Columns("D").ColumnWidth = 60
-    $wsSettings.Columns("E").ColumnWidth = 26
-    $wsSettings.Columns("F").ColumnWidth = 30
+    $wsSettings.Columns("A").ColumnWidth = 14
+    $wsSettings.Columns("B").ColumnWidth = 22
+    $wsSettings.Columns("C").ColumnWidth = 44
+    $wsSettings.Columns("D").ColumnWidth = 82
+    $wsSettings.Columns("E").ColumnWidth = 34
+    $wsSettings.Columns("F").ColumnWidth = 42
 
     Set-MergedValue $wsTrait "A1:D1" "通用特性体系"
     Write-TableRows $wsTrait 1 2 (, @("家族", "分组", "特性名称", "特性介绍"))
@@ -375,6 +375,7 @@ try {
     $wsTrait.Columns("B").ColumnWidth = 18
     $wsTrait.Columns("C").ColumnWidth = 18
     $wsTrait.Columns("D").ColumnWidth = 68
+    $wsTrait.Columns("E:G").ColumnWidth = 11
 
     Set-MergedValue $wsSkill "A1:F1" "技能列表"
     Write-TableRows $wsSkill 1 2 (, @("家族", "分组", "技能名称", "技能介绍", "技能速度", "技能消耗"))
@@ -396,14 +397,15 @@ try {
     $wsSkill.Columns("D").ColumnWidth = 74
     $wsSkill.Columns("E").ColumnWidth = 12
     $wsSkill.Columns("F").ColumnWidth = 18
+    $wsSkill.Columns("G:I").ColumnWidth = 11
 
     Write-Host "[4/7] Building equipment catalog..."
     $equipmentWorkbook = $excel.Workbooks.Open($equipmentSourcePath)
     $equipmentWs = $equipmentWorkbook.Worksheets.Item(1)
 
     Set-MergedValue $wsEquipment "A1:K1" "装备列表"
-    Set-MergedValue $wsEquipment "A2:K2" "按防具、饰品、武器与功能装备整理；本人与随从装备/武器栏将关联此页。"
-    Write-TableRows $wsEquipment 1 4 (, @("大类", "子类", "名称", "效果", "价格", "护甲", "魔抗", "耐久", "需求", "伤害", "备注"))
+    Set-MergedValue $wsEquipment "A2:K2" "可在下方直接新增自定义装备；请规范填写大类、子类与名称，人物/随从联动会自动刷新，表头下拉可按分类筛选。"
+    Write-TableRows $wsEquipment 1 3 (, @("大类", "子类", "名称", "效果", "价格", "护甲", "魔抗", "耐久", "需求", "伤害", "备注"))
 
     $equipmentRows = @()
     Add-EquipmentRowsFromColumnSet ([ref]$equipmentRows) $equipmentWs "饰品" "大印" 3 43 1 2 3 0 0 0 0 0 ""
@@ -422,7 +424,7 @@ try {
     Add-EquipmentRowsFromColumnSet ([ref]$equipmentRows) $equipmentWs "功能装备" "丹炉" 2 23 40 41 42 0 0 0 0 0 ""
     Add-EquipmentRowsFromColumnSet ([ref]$equipmentRows) $equipmentWs "功能装备" "手杖" 2 23 43 44 45 0 0 0 0 0 ""
 
-    Write-TableRows $wsEquipment 1 5 $equipmentRows
+    Write-TableRows $wsEquipment 1 4 $equipmentRows
 
     $equipmentLookupRows = @()
     foreach ($rowValues in $equipmentRows) {
@@ -616,12 +618,16 @@ try {
     $wsFollower.Columns("Q").ColumnWidth = 10
     $wsFollower.Columns("R").ColumnWidth = 10
 
-    $wsBook.Range("A18:U18").Value2 = "技能配置"
-    for ($row = 2; $row -le 17; $row++) {
+    $wsBook.Rows("1:1").Insert() | Out-Null
+    Set-MergedValue $wsBook "A1:J1" "书籍配置"
+    Set-MergedValue $wsBook "L1:U1" "特性配置"
+    Set-MergedValue $wsBook "A19:U19" "技能配置"
+
+    for ($row = 3; $row -le 18; $row++) {
         $wsBook.Range("L$row").Value2 = "空"
         $wsBook.Range("M$row").Value2 = ""
     }
-    for ($row = 20; $row -le 35; $row++) {
+    for ($row = 21; $row -le 36; $row++) {
         $wsBook.Range("A$row").Value2 = "空"
         $wsBook.Range("L$row").Value2 = "空"
     }
@@ -639,6 +645,29 @@ try {
         Set-MergedValue $wsPersonal ("D{0}:E{0}" -f $row) ""
         Set-MergedValue $wsPersonal ("F{0}:N{0}" -f $row) ""
     }
+
+    $wsPersonal.Range("P23:V36").ClearContents() | Out-Null
+    Set-MergedValue $wsPersonal "P23:V23" "满足画风的细节"
+
+    $detailLabels = @(
+        "发色",
+        "瞳色",
+        "肤色",
+        "理想",
+        "羁绊",
+        "私人爱好",
+        "缺点",
+        "个人信仰",
+        "名言警句",
+        "其他"
+    )
+    for ($index = 0; $index -lt $detailLabels.Count; $index++) {
+        $labelRow = 24 + $index
+        Set-MergedValue $wsPersonal ("P{0}:R{0}" -f $labelRow) $detailLabels[$index]
+        Set-MergedValue $wsPersonal ("S{0}:V{0}" -f $labelRow) ""
+    }
+
+    Set-MergedValue $wsPersonal "P35:V35" "满足画风物品栏"
 
     foreach ($cellAddr in @("F13", "F15", "F17", "F19", "F21")) {
         $wsPersonal.Range($cellAddr).Value2 = "空"
